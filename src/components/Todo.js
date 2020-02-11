@@ -4,7 +4,9 @@ import Item from './Item'
 import NewTask from './NewTask'
 
 const Todo = () =>{
-
+// If the functions here are not using any local variables, we can move them out of here, before the Todo definition. 
+// It's more performant as the functions will not be reinitialsed every time the component renders
+    
     const persistData = () =>{
         localStorage.setItem('todo', JSON.stringify(tasks));
     }    
@@ -21,7 +23,9 @@ const Todo = () =>{
         return false;   
     }
     
+   // Good practice to define these in the beginning of the function. 
     const [tasks, setTasks] = useState([]);
+    // Why do we need this variable?
     const [tasksRemaining, setTasksRemaining] = useState(0);
 
     useEffect(() => {
