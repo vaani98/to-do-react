@@ -1,3 +1,5 @@
+// Try to use vh, vw instead of px. This will ensure your website looks the same across all screen sizes
+
 .item {
   background: #fff;
   font-family: Lato, sans-serif;
