@@ -1,3 +1,6 @@
+// WAS THIS FILE ADDED BY YOU OR WAS IT A DEFAULT?
+
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
