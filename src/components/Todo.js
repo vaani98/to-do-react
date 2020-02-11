@@ -49,6 +49,8 @@ const Todo = () =>{
             completed: false, 
             date: new Date()
         };
+        // Good practice to populate your original data and then add the new data, helps when you're trying
+        // to update any key in a Json object
         const newTasks = [newTask, ...tasks]
         setTasks(newTasks);
         clearInput();
