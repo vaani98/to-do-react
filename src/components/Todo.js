@@ -2,38 +2,37 @@ import React, {useState, useEffect} from 'react';
 import './Todo.css';
 import Item from './Item'
 import NewTask from './NewTask'
+import ErrorModal from './ErrorModal'
 
-const Todo = () =>{
-// If the functions here are not using any local variables, we can move them out of here, before the Todo definition. 
-// It's more performant as the functions will not be reinitialsed every time the component renders
-    
-    const persistData = () =>{
-        localStorage.setItem('todo', JSON.stringify(tasks));
-    }    
-
-    const readStorage = () =>{
-        const storage = JSON.parse(localStorage.getItem('todo'));
+const persistData = tasks =>{
+    localStorage.setItem('todo', JSON.stringify(tasks));
+}    
+const readStorage = () =>{
+    const storage = JSON.parse(localStorage.getItem('todo'));
+    if(storage){
         for(var i=0; i<storage.length; i++){
             storage[i].date = new Date(storage[i].date)
         }
-        if(storage){
-            setTasks(storage);
-            return true;
-        }
-        return false;   
+        return storage;
     }
-    
-   // Good practice to define these in the beginning of the function. 
-    const [tasks, setTasks] = useState([]);
-    // Why do we need this variable?
-    const [tasksRemaining, setTasksRemaining] = useState(0);
+    else 
+        return []
+}
 
+const Todo = () =>{
+
+    // defined these in the beginning of the function. 
+    const [tasks, setTasks] = useState([]);
+    const [errorText, setErrorText] = useState(null);
+    //removed tasksRemaining variable
+    //moved persistData and readStorage outside the component 
+    
     useEffect(() => {
-        readStorage();
+        const tasksRead = readStorage();
+        setTasks(tasksRead);
     }, []);
 
     useEffect(() => {
-        setTasksRemaining(tasks.filter(task => !task.completed).length);
         persistData(tasks);
         
     }, [tasks]);
@@ -44,16 +43,36 @@ const Todo = () =>{
 
     const addItem = (e) => {
         e.preventDefault();
-        let newTask = {
-            title: document.getElementById("new_item").value, 
-            completed: false, 
-            date: new Date()
-        };
-        // Good practice to populate your original data and then add the new data, helps when you're trying
-        // to update any key in a Json object
-        const newTasks = [newTask, ...tasks]
-        setTasks(newTasks);
+        const itemText = document.getElementById("new_item").value;
+        var titles = tasks.map(el => el.title);    
+        var duplicate = titles.includes(itemText);  
+        //added logic to avoid adding duplicates, empty tasks, and tasks that are longer than 20 characters, setting error text accordingly  
+        if(!duplicate && itemText.length<=20 && itemText.length>0){
+            let newTaskItem = {
+                title:  itemText,
+                completed: false, 
+                date: new Date()
+            };
+            // populate your original data and then added the new data
+            let newTasks = [...tasks];
+            //add to beginning of array 
+            newTasks.unshift(newTaskItem);
+            setTasks(newTasks);    
+        }
+        else if(itemText.length>20){
+            setErrorText("task too long to add! (max 20 characters)");
+        }
+        else if(duplicate){
+            setErrorText("can't add duplicate task!");
+        }
+        else{
+            setErrorText("can't add empty task!");
+        }
         clearInput();
+    }
+
+    const clearError = () =>{
+        setErrorText(null);
     }
 
     const toggleComplete = index => {
@@ -83,28 +102,34 @@ const Todo = () =>{
 
     return(
         <div className="container">
+            {errorText && <ErrorModal onClose = {clearError}>{errorText}</ErrorModal>}
             <NewTask addItem = {addItem}></NewTask>
-                <div className="tasks">
+            <div className="tasks">
                 <h3>Todo</h3>
-                <button className = "sort" 
+                <button 
+                className = "sort" 
                 id = "sort_date" 
                 onClick = {sortDate}>
                     Sort by Date
-                    </button>
-                <button className = "sort" id = "sort_alpha" onClick = {sortAlpha}>Sort Alphabetically</button>
-
-            <ul>
-            {tasks.map((task, index) => (
-                <Item
-                    title={task.title}
-                    completed = {task.completed}
-                    index={index}
-                    key={index}
-                    clicked = {deleteItem}
-                    toggle = {toggleComplete}
-                />
-            ))}
-            </ul>
+                </button>
+                <button 
+                className = "sort" 
+                id = "sort_alpha" 
+                onClick = {sortAlpha}>
+                    Sort Alphabetically
+                </button>
+                <ul>
+                {tasks.map((task, index) => (
+                    <Item
+                        title={task.title}
+                        completed = {task.completed}
+                        index={index}
+                        key={index}
+                        deleteTask = {deleteItem}
+                        toggle = {toggleComplete}
+                    />
+                ))}
+                </ul>
             </div>
         </div>
     )

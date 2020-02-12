@@ -1,5 +1,5 @@
 // Was this file added by you, or was it a default?
-
+// default, made by react_create_app
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
