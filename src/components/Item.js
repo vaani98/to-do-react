@@ -15,7 +15,7 @@ const Item = props => {
         src="https://img.icons8.com/color/50/000000/delete-forever.png" 
         className = "icon-btns delete-btn" 
         alt = "delete"
-        onClick={() => props.clicked(props.index)}/>
+        onClick={() => props.deleteTask(props.index)}/>
         </li>
     )
 };

@@ -1,4 +1,4 @@
-// Try to use vh, vw instead of px. This will ensure your website looks the same across all screen sizes
+/* // Try to use vh, vw instead of px. This will ensure your website looks the same across all screen sizes */
 
 .item {
   background: #fff;
@@ -6,7 +6,7 @@
   color: #888;
   border: 0;
   font-size: 14px;
-  margin: 0 10px;
+  margin: 0 20px;
   width: 331px;
   border-bottom: 1px solid #eee;
 
