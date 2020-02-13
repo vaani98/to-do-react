@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`my test suite renders 1`] = `
+<DocumentFragment>
+  <div
+    class="container"
+  >
+    <label
+      for="new-task"
+    >
+      Add Item
+    </label>
+    <br />
+    <form>
+      <input
+        class="input"
+        id="new_item"
+        placeholder="Add a new task"
+        style="border: 1px solid #ddd;"
+        type="text"
+      />
+      <img
+        alt="Add Task"
+        class="icon-btns"
+        id="add-btn"
+        src="https://img.icons8.com/color/96/000000/add.png"
+      />
+    </form>
+    <div
+      class="tasks"
+    >
+      <h3>
+        Todo
+      </h3>
+      <button
+        class="sort"
+        id="sort_date"
+      >
+        Sort by Date
+      </button>
+      <button
+        class="sort"
+        id="sort_alpha"
+      >
+        Sort Alphabetically
+      </button>
+      <ul
+        class="todo"
+      />
+    </div>
+  </div>
+</DocumentFragment>
+`;

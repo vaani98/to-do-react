@@ -118,7 +118,7 @@ const Todo = () =>{
                 onClick = {sortAlpha}>
                     Sort Alphabetically
                 </button>
-                <ul>
+                <ul className = "todo">
                 {tasks.map((task, index) => (
                     <Item
                         title={task.title}
